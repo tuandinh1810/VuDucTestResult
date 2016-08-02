@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VuDucLabConn.Models
+namespace VuDucLapConnModel
 {
     using System;
     using System.Data.Entity;

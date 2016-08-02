@@ -7,18 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VuDucLabConn.Models
+namespace VuDucLapConnClient.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class TestResult
+    public partial class tbl_Result_Out_Tracking
     {
         public int AutoID { get; set; }
-        public string SID { get; set; }
-        public string Testcode { get; set; }
+        public int ResultID { get; set; }
+        public string SIDOld { get; set; }
+        public string SIDNew { get; set; }
         public string Result { get; set; }
-        public string TestName { get; set; }
-        public Nullable<System.DateTime> ResultTime { get; set; }
+        public string PosNeg { get; set; }
+        public Nullable<System.DateTime> Runtime { get; set; }
+        public int InstrumentID { get; set; }
+        public System.DateTime Intime { get; set; }
+        public string Userchange { get; set; }
+        public System.Guid rowguid { get; set; }
     }
 }

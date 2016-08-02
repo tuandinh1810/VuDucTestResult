@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using VuDucLabConn.Models;
+using VuDucLapConnModel;
+using System.Collections.Generic;
 
 namespace VuDucLabConn.Controllers
 {
@@ -402,11 +404,25 @@ namespace VuDucLabConn.Controllers
         {
             return View();
         }
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public string GetPaitl(string Paitl)
+        public string GetPaitl(TestResult model)
         {
-            return Paitl;
+            string isSucess = "";
+            try
+            {
+                VuDucResultTestEntities testResultEntities = new VuDucResultTestEntities();
+                testResultEntities.TestResults.Add(model);
+                testResultEntities.SaveChanges();
+                isSucess = "Sucess";
+            }
+            catch(Exception ex)
+            {
+                isSucess = ex.InnerException.ToString();
+            }
+
+            return isSucess;
+
         }
         protected override void Dispose(bool disposing)
         {

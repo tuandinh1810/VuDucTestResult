@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="VuDucResultTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VuDucResultTestModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="TestResult">
           <Key>
             <PropertyRef Name="AutoID" />
@@ -18,14 +18,12 @@
         </EntityType>
         <EntityContainer Name="VuDucResultTestModelStoreContainer">
           <EntitySet Name="TestResult" EntityType="Self.TestResult" Schema="dbo" store:Type="Tables" />
-          </EntityContainer>
-      </Schema></edmx:StorageModels>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VuDucResultTestModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="VuDucResultTestEntities" annotation:LazyLoadingEnabled="true" >
-          <EntitySet Name="TestResults" EntityType="VuDucResultTestModel.TestResult" />
-        </EntityContainer>
         <EntityType Name="TestResult">
           <Key>
             <PropertyRef Name="AutoID" />
@@ -37,21 +35,24 @@
           <Property Name="TestName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ResultTime" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityContainer Name="VuDucResultTestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TestResults" EntityType="Self.TestResult" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VuDucResultTestModelStoreContainer" CdmEntityContainer="VuDucResultTestEntities" >
+        <EntityContainerMapping StorageEntityContainer="VuDucResultTestModelStoreContainer" CdmEntityContainer="VuDucResultTestEntities">
           <EntitySetMapping Name="TestResults">
             <EntityTypeMapping TypeName="VuDucResultTestModel.TestResult">
               <MappingFragment StoreEntitySet="TestResult">
-                <ScalarProperty Name="ResultTime" ColumnName="ResultTime" />
-                <ScalarProperty Name="TestName" ColumnName="TestName" />
-                <ScalarProperty Name="Result" ColumnName="Result" />
-                <ScalarProperty Name="Testcode" ColumnName="Testcode" />
-                <ScalarProperty Name="SID" ColumnName="SID" />
                 <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+                <ScalarProperty Name="SID" ColumnName="SID" />
+                <ScalarProperty Name="Testcode" ColumnName="Testcode" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="ResultTime" ColumnName="ResultTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
