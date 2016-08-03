@@ -26,5 +26,7 @@ namespace VuDucLapConnModel
         }
     
         public virtual DbSet<TestResult> TestResults { get; set; }
+        public virtual DbSet<Doctor> Doctors { get; set; }
+        public virtual DbSet<Patient> Patients { get; set; }
     }
 }

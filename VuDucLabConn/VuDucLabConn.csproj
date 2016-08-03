@@ -299,6 +299,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\VuDucLapConnClient\VuDucLapConnClient.csproj">
+      <Project>{98194347-cb27-42eb-b668-45d05f17b3ae}</Project>
+      <Name>VuDucLapConnClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VuDucLapConnModel\VuDucLapConnModel.csproj">
       <Project>{5fb83567-9658-4298-8130-6314b6562a44}</Project>
       <Name>VuDucLapConnModel</Name>

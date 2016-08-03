@@ -12,17 +12,9 @@ namespace VuDucLapConnModel
     using System;
     using System.Collections.Generic;
     
-    public partial class TestResult
+    public partial class Doctor
     {
-        public int AutoID { get; set; }
-        public string SID { get; set; }
-        public string Testcode { get; set; }
-        public string Result { get; set; }
-        public string TestName { get; set; }
-        public Nullable<System.DateTime> ResultTime { get; set; }
-        public string Unit { get; set; }
-        public string NormalRange { get; set; }
-        public string Category { get; set; }
-        public Nullable<System.DateTime> UpdateTime { get; set; }
+        public string DoctorID { get; set; }
+        public string DoctorName { get; set; }
     }
 }

@@ -15,15 +15,20 @@ namespace VuDucLapConnClient
 {
     public partial class Form1 : Form
     {
+        Labconn_PKVuDucEntities labPKVuDuc;
         public Form1()
         {
             InitializeComponent();
-            List<TestResult> lstResult = getTestResultFromClient();
-            TestResult(lstResult);
+            labPKVuDuc = new Labconn_PKVuDucEntities();
+            TestResult();
         }
 
-        public void TestResult(List<TestResult> lstResult)
+        public void TestResult()
         {
+
+            List<Doctor> lstDoctor = getDoctorFromClient();
+            List<Patient> lstPatient = getPatientFromClient();
+            List<TestResult> lstResult = getTestResultFromClient();
             
             string strResult = "";
             using (var client = new HttpClient())
@@ -32,8 +37,35 @@ namespace VuDucLapConnClient
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+              
+                //Improt Doctor
+
+               
+                foreach (var item in lstDoctor)
+                {
+                    var response = client.PostAsJsonAsync("api/TestResult/ImportDoctor", item).Result;
+                    //client.PostAsJsonAsync
+                    if (response.EnsureSuccessStatusCode().StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        //This method is an extension method, defined in System.Net.Http.HttpContentExtensions    
+                        strResult = response.Content.ReadAsStringAsync().Result;
+                    }
+                }
+                //Import Patient
+                foreach (var item in lstPatient)
+                {
+                    var response = client.PostAsJsonAsync("api/TestResult/ImportPatient", item).Result;
+                    //client.PostAsJsonAsync
+                    if (response.EnsureSuccessStatusCode().StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        //This method is an extension method, defined in System.Net.Http.HttpContentExtensions    
+                        strResult = response.Content.ReadAsStringAsync().Result;
+                    }
+                }
+
                 // New code:
-                foreach(var item in lstResult)
+                //Import TestResult
+                foreach (var item in lstResult)
                 {
                     var response = client.PostAsJsonAsync("api/TestResult/ImportTestResult", item).Result;
                     //client.PostAsJsonAsync
@@ -50,7 +82,7 @@ namespace VuDucLapConnClient
         {
             List<TestResult> lstTestResult = new List<VuDucLapConnModel.TestResult>();
             TestResult testResult;
-            Labconn_PKVuDucEntities labPKVuDuc = new Labconn_PKVuDucEntities();
+           
             List<tbl_Result> lstResult = labPKVuDuc.tbl_Result.Where(o => o.ResultTime.Value.Year == 2016 &&
              o.ResultTime.Value.Month == 7 && o.ResultTime.Value.Day == 23).ToList();
             foreach (var item in lstResult)
@@ -62,10 +94,55 @@ namespace VuDucLapConnClient
                 testResult.Result = item.Result;
                 testResult.ResultTime = item.ResultTime;
                 testResult.AutoID = item.AutoID;
-
+                testResult.NormalRange = item.NormalRange;
+                testResult.Unit = item.Unit;
+                testResult.Category = item.Category;
                 lstTestResult.Add(testResult);
             }
             return lstTestResult;
+        }
+        public List<Doctor> getDoctorFromClient()
+        {
+            List<Doctor> lstDoctor = new List<Doctor>();
+            Doctor objectDoctor;
+            List<tbl_Doctor> lstDoctorClient = labPKVuDuc.tbl_Doctor.ToList();
+            if(lstDoctorClient!=null && lstDoctorClient.Count>0)
+            {
+                foreach(var doctor in lstDoctorClient)
+                {
+                    objectDoctor = new Doctor();
+                    objectDoctor.DoctorID = doctor.DoctorID;
+                    objectDoctor.DoctorName = doctor.DoctorName;
+                    lstDoctor.Add(objectDoctor);
+                }
+            }
+
+            return lstDoctor;
+
+        }
+        public List<Patient> getPatientFromClient()
+        {
+            List<Patient> lstPatient = new List<Patient>();
+            Patient objPatient;
+            List<tbl_Patient> lstPatientClient = labPKVuDuc.tbl_Patient.ToList();
+            if (lstPatientClient != null && lstPatientClient.Count > 0)
+            {
+                foreach (var patient in lstPatientClient)
+                {
+                    objPatient = new Patient();
+                    objPatient.SID = patient.SID;
+                    objPatient.PatientName = patient.PatientName;
+                    objPatient.Sex = patient.Sex;
+                    objPatient.Phone = patient.Phone;
+                    objPatient.Email = patient.Email;
+                    objPatient.Address = patient.Address;
+                    objPatient.Age = patient.Age;
+                    objPatient.DoctorID = patient.DoctorID;
+                    lstPatient.Add(objPatient);
+                }
+            }
+
+            return lstPatient;
         }
 
     }

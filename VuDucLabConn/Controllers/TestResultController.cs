@@ -30,12 +30,52 @@ namespace VuDucLabConn.Controllers
             return isSucess;
 
         }
-        
+        [HttpPost]
+        public string ImportDoctor(Doctor model)
+        {
+
+         
+            string isSucess = "";
+            try
+            {
+                VuDucResultTestEntities testResultEntities = new VuDucResultTestEntities();
+                testResultEntities.Doctors.Add(model);
+                testResultEntities.SaveChanges();
+                isSucess = "Sucess";
+            }
+            catch (Exception ex)
+            {
+                isSucess = ex.InnerException.ToString();
+            }
+
+            return isSucess;
+
+        }
+        [HttpPost]
+        public string ImportPatient(Patient model)
+        {
+            string isSucess = "";
+            try
+            {
+                VuDucResultTestEntities testResultEntities = new VuDucResultTestEntities();
+                testResultEntities.Patients.Add(model);
+                testResultEntities.SaveChanges();
+                isSucess = "Sucess";
+            }
+            catch (Exception ex)
+            {
+                isSucess = ex.InnerException.ToString();
+            }
+
+            return isSucess;
+
+        }
         [HttpGet]
         public string TestAPI()
         {
             return "hello word";
 
         }
+        
     }
 }
