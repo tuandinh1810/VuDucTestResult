@@ -25,6 +25,7 @@
           <Property Name="Phone" Type="varchar" MaxLength="50" />
           <Property Name="Address" Type="nvarchar" MaxLength="500" />
           <Property Name="DateIn" Type="smalldatetime" />
+          <Property Name="IntTime" Type="datetime" />
         </EntityType>
         <EntityType Name="TestResult">
           <Key>
@@ -90,6 +91,7 @@
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="DateIn" Type="DateTime" Precision="0" />
+          <Property Name="IntTime" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -124,6 +126,7 @@
           <EntitySetMapping Name="Patients">
             <EntityTypeMapping TypeName="VuDucResultTestModel.Patient">
               <MappingFragment StoreEntitySet="Patient">
+                <ScalarProperty Name="IntTime" ColumnName="IntTime" />
                 <ScalarProperty Name="DateIn" ColumnName="DateIn" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

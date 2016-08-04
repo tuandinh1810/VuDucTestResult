@@ -19,6 +19,7 @@ namespace VuDucLapConnClient
         public Form1()
         {
             InitializeComponent();
+            DateTime test= getMaxDateInPatientFromServer();
             labPKVuDuc = new Labconn_PKVuDucEntities();
             TestResult();
         }
@@ -78,13 +79,59 @@ namespace VuDucLapConnClient
 
             }
         }
+
+        public DateTime getMaxDateInPatientFromServer()
+        {
+            DateTime result = DateTime.MinValue;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:64989/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                var response = client.GetAsync("api/TestResult/MaxDatInPatient").Result;
+                //client.PostAsJsonAsync
+                if (response.EnsureSuccessStatusCode().StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    //This method is an extension method, defined in System.Net.Http.HttpContentExtensions    
+                    result = response.Content.ReadAsAsync<DateTime>().Result;
+                }
+
+            }
+
+            return result;
+        }
+
+        public DateTime getMaxUpDateTimeResultFromServer()
+        {
+            DateTime result = DateTime.MinValue;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:64989/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                var response = client.GetAsync("api/TestResult/MaxUpdateTimeResult").Result;
+                //client.PostAsJsonAsync
+                if (response.EnsureSuccessStatusCode().StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    //This method is an extension method, defined in System.Net.Http.HttpContentExtensions    
+                    result = response.Content.ReadAsAsync<DateTime>().Result;
+                }
+
+            }
+
+            return result;
+        }
+
         public List<TestResult> getTestResultFromClient()
         {
             List<TestResult> lstTestResult = new List<VuDucLapConnModel.TestResult>();
             TestResult testResult;
-           
-            List<tbl_Result> lstResult = labPKVuDuc.tbl_Result.Where(o => o.ResultTime.Value.Year == 2016 &&
-             o.ResultTime.Value.Month == 7 && o.ResultTime.Value.Day == 23).ToList();
+            DateTime maxUpdateTimeResult = getMaxUpDateTimeResultFromServer();
+            List<tbl_Result> lstResult = labPKVuDuc.tbl_Result.Where(o => o.Updatetime> maxUpdateTimeResult).ToList();
             foreach (var item in lstResult)
             {
                 testResult = new VuDucLapConnModel.TestResult();
@@ -97,6 +144,7 @@ namespace VuDucLapConnClient
                 testResult.NormalRange = item.NormalRange;
                 testResult.Unit = item.Unit;
                 testResult.Category = item.Category;
+                testResult.UpdateTime = item.Updatetime;
                 lstTestResult.Add(testResult);
             }
             return lstTestResult;
@@ -122,9 +170,10 @@ namespace VuDucLapConnClient
         }
         public List<Patient> getPatientFromClient()
         {
+            DateTime maxInTimePatient = getMaxDateInPatientFromServer();
             List<Patient> lstPatient = new List<Patient>();
             Patient objPatient;
-            List<tbl_Patient> lstPatientClient = labPKVuDuc.tbl_Patient.ToList();
+            List<tbl_Patient> lstPatientClient = labPKVuDuc.tbl_Patient.Where(o => o.Intime > maxInTimePatient).ToList();
             if (lstPatientClient != null && lstPatientClient.Count > 0)
             {
                 foreach (var patient in lstPatientClient)
@@ -137,7 +186,9 @@ namespace VuDucLapConnClient
                     objPatient.Email = patient.Email;
                     objPatient.Address = patient.Address;
                     objPatient.Age = patient.Age;
+                    objPatient.DateIn = patient.DateIN;
                     objPatient.DoctorID = patient.DoctorID;
+                    objPatient.IntTime = patient.Intime;
                     lstPatient.Add(objPatient);
                 }
             }

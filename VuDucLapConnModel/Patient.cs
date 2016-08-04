@@ -23,5 +23,6 @@ namespace VuDucLapConnModel
         public string Phone { get; set; }
         public string Address { get; set; }
         public Nullable<System.DateTime> DateIn { get; set; }
+        public Nullable<System.DateTime> IntTime { get; set; }
     }
 }

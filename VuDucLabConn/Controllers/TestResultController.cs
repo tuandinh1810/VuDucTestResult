@@ -71,6 +71,42 @@ namespace VuDucLabConn.Controllers
 
         }
         [HttpGet]
+        public DateTime MaxDatInPatient()
+        {
+            DateTime maxDateIn = DateTime.MinValue;
+            string isSucess = "";
+            try
+            {
+                VuDucResultTestEntities testResultEntities = new VuDucResultTestEntities();
+                maxDateIn=testResultEntities.Patients.Max(o => o.IntTime).Value;
+                isSucess = "Sucess";
+            }
+            catch (Exception ex)
+            {
+                isSucess = ex.InnerException.ToString();
+            }
+
+            return maxDateIn;
+        }
+        [HttpGet]
+        public DateTime MaxUpdateTimeResult()
+        {
+            DateTime maxUpDateTime = DateTime.MinValue;
+            string isSucess = "";
+            try
+            {
+                VuDucResultTestEntities testResultEntities = new VuDucResultTestEntities();
+                maxUpDateTime = testResultEntities.TestResults.Max(o => o.UpdateTime).Value;
+                isSucess = "Sucess";
+            }
+            catch (Exception ex)
+            {
+                isSucess = ex.InnerException.ToString();
+            }
+
+            return maxUpDateTime;
+        }
+        [HttpGet]
         public string TestAPI()
         {
             return "hello word";
