@@ -188,7 +188,7 @@ namespace VuDucLapConnClient
                     objPatient.Age = patient.Age;
                     objPatient.DateIn = patient.DateIN;
                     objPatient.DoctorID = patient.DoctorID;
-                    objPatient.IntTime = patient.Intime;
+                    objPatient.InTime = patient.Intime;
                     lstPatient.Add(objPatient);
                 }
             }

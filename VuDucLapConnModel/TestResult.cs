@@ -24,5 +24,7 @@ namespace VuDucLapConnModel
         public string NormalRange { get; set; }
         public string Category { get; set; }
         public Nullable<System.DateTime> UpdateTime { get; set; }
+    
+        public virtual Patient Patient { get; set; }
     }
 }

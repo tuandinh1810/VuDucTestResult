@@ -14,6 +14,12 @@ namespace VuDucLapConnModel
     
     public partial class Patient
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Patient()
+        {
+            this.TestResults = new HashSet<TestResult>();
+        }
+    
         public string SID { get; set; }
         public string PatientName { get; set; }
         public string Sex { get; set; }
@@ -23,6 +29,9 @@ namespace VuDucLapConnModel
         public string Phone { get; set; }
         public string Address { get; set; }
         public Nullable<System.DateTime> DateIn { get; set; }
-        public Nullable<System.DateTime> IntTime { get; set; }
+        public Nullable<System.DateTime> InTime { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TestResult> TestResults { get; set; }
     }
 }

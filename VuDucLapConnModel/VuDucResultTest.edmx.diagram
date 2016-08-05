@@ -8,6 +8,7 @@
         <EntityTypeShape EntityType="VuDucResultTestModel.TestResult" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VuDucResultTestModel.Doctor" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="VuDucResultTestModel.Patient" Width="1.5" PointX="3.375" PointY="3.75" />
+        <AssociationConnector Association="VuDucResultTestModel.FK_TestResult_Patient" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

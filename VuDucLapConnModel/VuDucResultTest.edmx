@@ -25,14 +25,14 @@
           <Property Name="Phone" Type="varchar" MaxLength="50" />
           <Property Name="Address" Type="nvarchar" MaxLength="500" />
           <Property Name="DateIn" Type="smalldatetime" />
-          <Property Name="IntTime" Type="datetime" />
+          <Property Name="InTime" Type="datetime" />
         </EntityType>
         <EntityType Name="TestResult">
           <Key>
             <PropertyRef Name="AutoID" />
           </Key>
           <Property Name="AutoID" Type="int" Nullable="false" />
-          <Property Name="SID" Type="varchar" MaxLength="15" />
+          <Property Name="SID" Type="varchar" MaxLength="50" />
           <Property Name="Testcode" Type="varchar" MaxLength="15" />
           <Property Name="Result" Type="nvarchar" MaxLength="50" />
           <Property Name="TestName" Type="nvarchar" MaxLength="200" />
@@ -42,10 +42,26 @@
           <Property Name="Category" Type="nvarchar" MaxLength="50" />
           <Property Name="UpdateTime" Type="datetime" />
         </EntityType>
+        <Association Name="FK_TestResult_Patient">
+          <End Role="Patient" Type="Self.Patient" Multiplicity="0..1" />
+          <End Role="TestResult" Type="Self.TestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="TestResult">
+              <PropertyRef Name="SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="VuDucResultTestModelStoreContainer">
           <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Patient" EntityType="Self.Patient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TestResult" EntityType="Self.TestResult" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TestResult_Patient" Association="Self.FK_TestResult_Patient">
+            <End Role="Patient" EntitySet="Patient" />
+            <End Role="TestResult" EntitySet="TestResult" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -56,7 +72,7 @@
             <PropertyRef Name="AutoID" />
           </Key>
           <Property Name="AutoID" Type="Int32" Nullable="false" />
-          <Property Name="SID" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="SID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Testcode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="Result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TestName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -65,11 +81,16 @@
           <Property Name="NormalRange" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Patient" Relationship="VuDucResultTestModel.FK_TestResult_Patient" FromRole="TestResult" ToRole="Patient" />
         </EntityType>
         <EntityContainer Name="VuDucResultTestEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TestResults" EntityType="Self.TestResult" />
           <EntitySet Name="Doctors" EntityType="VuDucResultTestModel.Doctor" />
           <EntitySet Name="Patients" EntityType="VuDucResultTestModel.Patient" />
+          <AssociationSet Name="FK_TestResult_Patient" Association="VuDucResultTestModel.FK_TestResult_Patient">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="TestResult" EntitySet="TestResults" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Doctor">
           <Key>
@@ -91,8 +112,21 @@
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="DateIn" Type="DateTime" Precision="0" />
-          <Property Name="IntTime" Type="DateTime" Precision="3" />
+          <Property Name="InTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="TestResults" Relationship="VuDucResultTestModel.FK_TestResult_Patient" FromRole="Patient" ToRole="TestResult" />
         </EntityType>
+        <Association Name="FK_TestResult_Patient">
+          <End Type="VuDucResultTestModel.Patient" Role="Patient" Multiplicity="0..1" />
+          <End Type="VuDucResultTestModel.TestResult" Role="TestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="SID" />
+            </Principal>
+            <Dependent Role="TestResult">
+              <PropertyRef Name="SID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -126,7 +160,7 @@
           <EntitySetMapping Name="Patients">
             <EntityTypeMapping TypeName="VuDucResultTestModel.Patient">
               <MappingFragment StoreEntitySet="Patient">
-                <ScalarProperty Name="IntTime" ColumnName="IntTime" />
+                <ScalarProperty Name="InTime" ColumnName="InTime" />
                 <ScalarProperty Name="DateIn" ColumnName="DateIn" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />

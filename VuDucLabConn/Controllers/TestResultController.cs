@@ -7,10 +7,10 @@ using System.Web.Http;
 using VuDucLapConnModel;
 namespace VuDucLabConn.Controllers
 {
-   
+
     public class TestResultController : ApiController
     {
-        
+
         [HttpPost]
         public string ImportTestResult(TestResult model)
         {
@@ -34,7 +34,7 @@ namespace VuDucLabConn.Controllers
         public string ImportDoctor(Doctor model)
         {
 
-         
+
             string isSucess = "";
             try
             {
@@ -78,7 +78,8 @@ namespace VuDucLabConn.Controllers
             try
             {
                 VuDucResultTestEntities testResultEntities = new VuDucResultTestEntities();
-                maxDateIn=testResultEntities.Patients.Max(o => o.IntTime).Value;
+                if (testResultEntities.Patients.Count() > 0)
+                    maxDateIn = testResultEntities.Patients.Max(o => o.InTime).Value;
                 isSucess = "Sucess";
             }
             catch (Exception ex)
@@ -96,7 +97,8 @@ namespace VuDucLabConn.Controllers
             try
             {
                 VuDucResultTestEntities testResultEntities = new VuDucResultTestEntities();
-                maxUpDateTime = testResultEntities.TestResults.Max(o => o.UpdateTime).Value;
+                if (testResultEntities.TestResults.Count() > 0)
+                    maxUpDateTime = testResultEntities.TestResults.Max(o => o.UpdateTime).Value;
                 isSucess = "Sucess";
             }
             catch (Exception ex)
@@ -112,6 +114,6 @@ namespace VuDucLabConn.Controllers
             return "hello word";
 
         }
-        
+
     }
 }
