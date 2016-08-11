@@ -1,0 +1,90 @@
+﻿@model VuDucLapConnModel.Patient
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Patient</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PatientName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PatientName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DoctorID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DoctorID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateIn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateIn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
