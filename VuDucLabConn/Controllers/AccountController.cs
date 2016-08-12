@@ -77,7 +77,10 @@ namespace VuDucLabConn.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(Patient model, string returnUrl)
         {
-            var checkBox = Request.Form["chkIsPatient"];
+            //var checkBox = Request.Form["chkIsPatient"][0];
+            bool isDoctorUser = Convert.ToBoolean(Request.Form["chkIsPatient"].Split(',')[0]);
+            Patient objPatient;
+            Doctor objDoctor;
             if (Session["PatientName"] + "" == "")
             {
                 if (!ModelState.IsValid)
@@ -87,19 +90,50 @@ namespace VuDucLabConn.Controllers
 
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, change to shouldLockout: true
-                var result = vuducResultEntites.Patients.Include("TestResults").Where(o => o.SID == model.SID).FirstOrDefault();
-                if (result != null)
-                {
-                    Session["PatientName"] = result.PatientName;
 
-                    return RedirectToAction("Patient", new RouteValueDictionary( new { controller = "TestResults", action = "Patient", sid = result.SID }));
+                if (!isDoctorUser)
+                {
+                    objPatient = vuducResultEntites.Patients.Where(o => o.SID == model.SID).FirstOrDefault();
+                    if (objPatient != null)
+                    {
+                        Session["PatientName"] = objPatient.PatientName;
+                        return RedirectToAction("Patient", new RouteValueDictionary(new { controller = "TestResults", action = "Patient", sid = objPatient.SID }));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                    }
+
+                    
 
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    objDoctor = vuducResultEntites.Doctors.Where(o => o.DoctorID == model.SID).FirstOrDefault();
+                    if (objDoctor != null)
+                    {
+                        Session["PatientName"] = objDoctor.DoctorName;
+                        return RedirectToAction("ByDoctor", new RouteValueDictionary(new { controller = "Patients", action = "ByDoctor", id = objDoctor.DoctorID }));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                    }
                 }
+                //if (result != null)
+                //{
+                //    Session["PatientName"] = result.PatientName;
+
+                //    return RedirectToAction("Patient", new RouteValueDictionary(new { controller = "TestResults", action = "Patient", sid = result.SID }));
+
+                //}
+                //else
+                //{
+                //    ModelState.AddModelError("", "Invalid login attempt.");
+                //    return View(model);
+                //}
             }
             else
                 return Redirect("/Home/Index");
@@ -403,7 +437,7 @@ namespace VuDucLabConn.Controllers
 
         //
         // POST: /Account/LogOff
-       // [AllowAnonymous]
+        // [AllowAnonymous]
         public ActionResult Logoff()
         {
             //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
