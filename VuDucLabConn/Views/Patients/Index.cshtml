@@ -17,9 +17,7 @@
         <th>
             @Html.DisplayNameFor(model => model.Sex)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DoctorID)
-        </th>
+        
         <th>
             @Html.DisplayNameFor(model => model.Age)
         </th>
@@ -32,12 +30,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Address)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.DateIn)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.InTime)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -49,9 +47,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Sex)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.DoctorID)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Age)
         </td>
@@ -64,16 +62,16 @@
         <td>
             @Html.DisplayFor(modelItem => item.Address)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.DateIn)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.InTime)
-        </td>
+        </td>*@
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.SID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.SID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.SID })
+            
+            @Html.ActionLink("Kết quả", "Details", new { id=item.SID }) 
+            
         </td>
     </tr>
 }

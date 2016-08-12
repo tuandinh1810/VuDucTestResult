@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using VuDucLapConnModel;
 
 namespace VuDucLabConn.Controllers
@@ -20,9 +21,11 @@ namespace VuDucLabConn.Controllers
             return View(db.Patients.ToList());
            // return View(db.Patients.Where(o => o.DoctorID == Doctor).ToList());
         }
-        public ActionResult ByDoctor(string Doctor)
+        public ActionResult ByDoctor(string id)
         {
-            return View("Index",db.Patients.Where(o => o.DoctorID == Doctor).ToList());
+            List<Patient> lstPatient = db.Patients.Include("TestResults").Where(o => o.DoctorID == id && o.PatientName + "" != "").ToList();
+            lstPatient = lstPatient.Where(o => o.TestResults.Count > 0).ToList();
+            return View("Index",lstPatient);
         }
 
         // GET: Patients/Details/5
@@ -32,12 +35,9 @@ namespace VuDucLabConn.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Patient patient = db.Patients.Find(id);
-            if (patient == null)
-            {
-                return HttpNotFound();
-            }
-            return View(patient);
+            else
+                return RedirectToAction("Patient", new RouteValueDictionary(new { controller = "TestResults", action = "Patient", sid = id }));
+
         }
 
         // GET: Patients/Create
